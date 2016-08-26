@@ -10,12 +10,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CORSFilter implements Filter {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(CORSFilter.class);
+
 	public void init(FilterConfig arg) throws ServletException {
+		CORSFilter.LOGGER.info("INIT CORS Filter");
 		System.out.println("init CORS Filter");
 	}
 
@@ -24,7 +29,9 @@ public class CORSFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 
-		//Disabling Request Excecution time Calculation and Header Authorization value check
+		CORSFilter.LOGGER.info("Request:: " + request.getMethod() + ":: " + request.getRequestURL().toString());
+
+		//NOTE :: Disabling Request Execution time Calculation and Header Authorization value check
 		/*long startTime = System.currentTimeMillis();
 		System.out.println(request.getMethod() + "::" + request.getRequestURL().toString() + ":: Start Time=" + System.currentTimeMillis());
 		System.out.println("Authorization: " + request.getHeader("Authorization"));*/
@@ -48,6 +55,7 @@ public class CORSFilter implements Filter {
 	}
 
 	public void destroy() {
+		CORSFilter.LOGGER.info("Destroying CORS Filter");
 		System.out.println("Destroying CORS Filter");
 	}
 
